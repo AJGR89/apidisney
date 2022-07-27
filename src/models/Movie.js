@@ -4,8 +4,8 @@ const movieSchema = new Schema(
   {
     imgUrl: { type: String, required: true },
     title: { type: String, required: true },
-    release: { type: Date, required: true },
-    score: { type: Number, required: true },
+    release: { type: Number, required: true },
+    score: { type: Number, required: true,defaul:0,max:5 },
     characters: [
         {
           ref: "Character",
