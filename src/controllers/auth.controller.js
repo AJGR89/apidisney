@@ -1,6 +1,7 @@
 import User from "../models/User";
 import jwt from "jsonwebtoken";
 import { SECRET, EXPIRES } from "../config";
+import { DEBUG } from "../utils/loggers";
 const { requestMailJet } = require("../utils/mailjet");
 
 /* LOGIN */
@@ -25,15 +26,13 @@ export const login = async (req, res) => {
         .json({ token: null, message: "user-password combination invalid" });
     }
 
-    console.log(userFound);
-    console.log(EXPIRES);
     const token = jwt.sign({ id: userFound._id }, SECRET, {
       expiresIn: EXPIRES,
     });
 
     res.json({ token });
   } catch (error) {
-    console.log(error);
+    DEBUG(`[login]: ${error}`);
     return res.status(500).json(error);
   }
 };
@@ -61,11 +60,11 @@ export const register = async (req, res) => {
       .then((response) => {
         console.log("response => ", response.body);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => DEBUG(`[requestMailJet]: ${error}`));
 
     return;
   } catch (error) {
-    console.log(error);
+    DEBUG(`[register]: ${error}`);
     return res.status(500).json(error);
   }
 };

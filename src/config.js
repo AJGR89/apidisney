@@ -23,3 +23,6 @@ export const MAILJET_API_SECRET =
   process.env.MAILJET_API_SECRET || "MAILJET_API_SECRET";
 export const MAILJET_API_SENDER =
   process.env.MAILJET_API_SENDER || "yourmail@.com";
+
+//MORGAN
+export const TZ = process.env.TZ || "America/Argentina/Buenos_Aires";

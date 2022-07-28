@@ -1,6 +1,7 @@
 import Character from "../models/character";
 import Movie from "../models/Movie";
 import Category from "../models/Category";
+import { DEBUG } from "../utils/loggers";
 
 export const getMovies = async (req, res) => {
   try {
@@ -37,6 +38,7 @@ export const getMovies = async (req, res) => {
         { sort: { release: 1 } }
       ).populate("characters",{movies:0});
       res.status(200).json(allMoviesASC);
+      return;
     }
     if (order === "DESC") {
       const allMoviesDESC = await Movie.find(
@@ -45,11 +47,15 @@ export const getMovies = async (req, res) => {
         { sort: { release: -1 } }
       ).populate("characters",{movies:0});
       res.status(200).json(allMoviesDESC);
+      return;
     }
     const allMovies = await Movie.find({}, { _id: 0 }).populate("characters",{movies:0});
     res.status(200).json(allMovies);
+    return;
   } catch (error) {
+    DEBUG(`[getMovies]: ${error}`)
     res.status(500).json({ error: "Failed getting movies" });
+    return;
   }
 };
 
@@ -76,6 +82,7 @@ export const createMovie = async (req, res) => {
     const movieC = await Movie.create(newMovie);
     res.status(201).json(movieC);
   } catch (error) {
+    DEBUG(`[createMovies]: ${error}`)
     res.status(500).json({ error: "Failed creating movie" });
   }
 };

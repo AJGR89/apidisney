@@ -2,3 +2,6 @@
 node_modules
 # enviorment
 .env
+# logs
+/logs/access.log
+/logs/debug.log
