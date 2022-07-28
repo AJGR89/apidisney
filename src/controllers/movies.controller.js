@@ -6,7 +6,7 @@ export const getMovies = async (req, res) => {
   try {
     const { name, genre, order } = req.query;
     if (name) {
-      const movieByName = await Movie.findOne({ title: name });
+      const movieByName = await Movie.findOne({ title: name }).populate("characters",{movies:0});
       return res.status(200).json(movieByName);
     }
     if (genre) {
@@ -18,15 +18,15 @@ export const getMovies = async (req, res) => {
       if (order === "ASC") {
         const moviesASC = await Movie.find({ _id: { $in: moviesArr } }, null, {
           sort: { release: 1 },
-        });
+        }).populate("characters",{movies:0});
         return res.status(200).json(moviesASC);
       } else if (order === "DESC") {
         const moviesDESC = await Movie.find({ _id: { $in: moviesArr } }, null, {
           sort: { release: -1 },
-        });
+        }).populate("characters",{movies:0});
         return res.status(200).json(moviesDESC);
       } else {
-        const movies = await Movie.find({ _id: { $in: moviesArr } });
+        const movies = await Movie.find({ _id: { $in: moviesArr } }).populate("characters",{movies:0});
         return res.status(200).json(movies);
       }
     }
@@ -35,7 +35,7 @@ export const getMovies = async (req, res) => {
         {},
         { _id: 0 },
         { sort: { release: 1 } }
-      ).populate("characters");
+      ).populate("characters",{movies:0});
       res.status(200).json(allMoviesASC);
     }
     if (order === "DESC") {
@@ -43,10 +43,10 @@ export const getMovies = async (req, res) => {
         {},
         { _id: 0 },
         { sort: { release: -1 } }
-      ).populate("characters");
+      ).populate("characters",{movies:0});
       res.status(200).json(allMoviesDESC);
     }
-    const allMovies = await Movie.find({}, { _id: 0 }).populate("characters");
+    const allMovies = await Movie.find({}, { _id: 0 }).populate("characters",{movies:0});
     res.status(200).json(allMovies);
   } catch (error) {
     res.status(500).json({ error: "Failed getting movies" });

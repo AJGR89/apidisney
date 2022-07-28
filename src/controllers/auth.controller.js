@@ -1,6 +1,7 @@
 import User from "../models/User";
 import jwt from "jsonwebtoken";
-import { SECRET } from "../config";
+import { SECRET, EXPIRES } from "../config";
+const { requestMailJet } = require("../utils/mailjet");
 
 /* LOGIN */
 export const login = async (req, res) => {
@@ -25,8 +26,9 @@ export const login = async (req, res) => {
     }
 
     console.log(userFound);
+    console.log(EXPIRES);
     const token = jwt.sign({ id: userFound._id }, SECRET, {
-      expiresIn: 180, // 3 mm
+      expiresIn: EXPIRES,
     });
 
     res.json({ token });
@@ -53,7 +55,15 @@ export const register = async (req, res) => {
       expiresIn: 180, // 3 mm
     });
 
-    return res.status(200).json({ token });
+    res.status(200).json({ token });
+
+    requestMailJet(savedUser.username, savedUser.email)
+      .then((response) => {
+        console.log("response => ", response.body);
+      })
+      .catch((error) => console.log(error));
+
+    return;
   } catch (error) {
     console.log(error);
     return res.status(500).json(error);
