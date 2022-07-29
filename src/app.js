@@ -9,6 +9,7 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import { options } from "./utils/swaggerOptions";
 import { accessLogStream } from "./utils/loggers";
+import swaggerJsondoc from "./utils/swagger-doc.json"
 
 const app = express();
 const specs = swaggerJsDoc(options);
@@ -27,7 +28,7 @@ app.use("/auth", authRoutes);
 app.use("/characters", [verifyToken], charactersRoutes);
 app.use("/movies", [verifyToken], moviesRoutes);
 app.use("/categories", [verifyToken], categoriesRoutes);
-app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs));
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerJsondoc,specs));
 app.get("*", function (req, res) {
   res.status(404).send({
     status: "error",

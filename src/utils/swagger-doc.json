@@ -1,0 +1,346 @@
+{
+    "info": { },
+    "swagger": "2.0",
+    "paths": {
+      "/auth/login": {
+        "post": {
+          "description": "Login user, return token",
+          "tags": ["Auth"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "Pet to add to the store",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user's token",
+               "schema":{
+                  "$ref":"#/definitions/Token"
+                }
+            },
+            "default":{
+              "description":"error in login",
+              "schema":{
+                "$ref":"#/definitions/NotLogin"
+              }
+            }
+          }
+        }
+      },
+      "/auth/register":{
+        "post": {
+          "description": "Register a user, return token",
+          "tags": ["Auth"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "Pet to add to the store",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserRegister"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user's token",
+               "schema":{
+                  "$ref":"#/definitions/Token"
+                }
+            },
+            "default":{
+              "description":"error in login",
+              "schema":{
+                "$ref":"#/definitions/Message"
+              }
+            }
+          }
+        }
+      },
+      "/categories":{
+        "post":{
+          "tags": ["Categories"],
+          "description": "Create a Category",
+          "produces": ["application/json"],
+          "parameters":[
+            {
+              "name": "Category",
+              "in": "body",
+              "description": "Category to add",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/CategoryRequest"
+              }
+            }
+          ],
+          "responses":{
+            "200": {
+              "description": "",
+               "schema":{
+                  "$ref":"#/definitions/CategoryRequest"
+                }
+            },
+            "default":{
+              "description":"error in ",
+              "schema":{
+                "$ref":"#/definitions/Message"
+              }
+            }
+          }
+        },
+        "get":{
+          "tags": ["Categories"],
+          "description": "Get all categories",
+          "produces": ["application/json"],
+          "parameters":[],
+          "responses":{
+            "200": {
+              "description": "",
+               "schema":{
+                "type":"array",
+                "items":{
+                  "$ref":"#/definitions/CategoryResponse"
+                }
+                }
+            },
+            "default":{
+              "description":"error in get categories ",
+              "schema":{
+                "$ref":"#/definitions/Message"
+              }
+            }
+          },
+          "security": [ { "bearerAuth": [] } ]
+        }
+      },
+      "/categories/{id}":{
+        "put":{
+          "tags": ["Categories"],
+          "description": "Update a category by id",
+          "produces": ["application/json"],
+          "parameters":[
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of category",
+              "required": true,
+              "type": "string",
+              "example":"62e16e349c35b23449af86e1"
+            },
+            {
+              "name": "category",
+              "in": "body",
+              "description": "data to update",
+              "required": true,
+              "schema":{
+                "$ref":"#/definitions/CategoryRequest"
+              }
+            }
+          ],
+          "responses":{
+            "200": {
+              "description": "",
+               "schema":{
+                  "$ref":"#/definitions/Message"
+                }
+            },
+            "default":{
+              "description":"error in ",
+              "schema":{
+                "$ref":"#/definitions/Message"
+              }
+            }
+          },
+          "security": [ { "bearerAuth": [] } ]
+        },
+        "delete":{
+          "tags": ["Categories"],
+          "description": "delete category by id",
+          "produces": ["application/json"],
+          "parameters":[
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of category",
+              "required": true,
+              "type": "string",
+              "example":"62e16e349c35b23449af86e1"
+            }
+          ],
+          "responses":{
+            "200": {
+              "description": "",
+               "schema":{
+                  "$ref":"#/definitions/Message"
+                }
+            },
+            "default":{
+              "description":"error in ",
+              "schema":{
+                "$ref":"#/definitions/Message"
+              }
+            }
+          },
+          "security": [ { "bearerAuth": [] } ]
+        }
+      },
+      "/characters":{
+        "get":{
+          "tags": ["Characters"]
+        },
+        "post":{
+          "tags": ["Characters"]
+        },
+        "put":{
+          "tags": ["Characters"]
+        },
+        "delete":{
+          "tags": ["Characters"]
+        }
+      },
+      "/movies":{
+        "get":{
+          "tags": ["Movies"]
+        },
+        "post":{
+          "tags": ["Movies"]
+        },
+        "put":{
+          "tags": ["Movies"]
+        },
+        "delete":{
+          "tags": ["Movies"]
+        }
+      }
+    },
+    "definitions": {
+      "CategoryResponse":{
+        "type":"object",
+        "required":["name","imgUrl"],
+        "properties":{
+          "name": { "type": "string"},
+          "imgUrl": {"type": "string" },
+          "movies": {"type": "array" },
+          "createdAt":{"type":"string"},
+          "updatedAt":{"type":"string"}
+        }
+      },
+      "CategoryRequest":{
+        "type":"object",
+        "required":["name","imgUrl"],
+        "properties":{
+          "name": { "type": "string"},
+          "imgUrl": {"type": "string" },
+          "movies": {"type": "array" }
+        },
+        "example":{
+          "name": "Películas de Acción Real",
+          "imgUrl": "https://static.wikia.nocookie.net/disney/images/6/68/The_nutcracker_and_the_four_realms_poster.jpg/revision/latest/scale-to-width-down/337?cb=20180811032835&path-prefix=es" ,
+          "movies":["id_movie1","id_movie2"] 
+        }
+      },
+      "UserLogin":{
+        "type":"object",
+        "required":[
+          "email",
+          "password"
+        ],
+        "properties":{
+          "email":{
+            "type":"string"
+          },
+          "password":{
+            "type":"string"
+          }
+        },
+        "example":{
+          "email":"a@a",
+          "password":"111111"
+        }
+      },
+      "UserRegister":{
+        "type":"object",
+        "required":[
+          "username",
+          "email",
+          "password"
+        ],
+        "properties":{
+          "username":{
+            "type":"string"
+          },
+          "email":{
+            "type":"string"
+          },
+          "password":{
+            "type":"string"
+          }
+        }
+      },
+      "Token":{
+        "type":"object",
+        "properties":{
+          "token":{
+            "type":"string"
+          }
+        }
+      },
+      "NotLogin":{
+        "type": "object",
+        "properties":{
+          "token":{
+            "type":"string"
+          },
+          "message":{
+            "type":"string"
+          }
+        }
+      },
+      "Message":{
+        "type": "object",
+        "properties":{
+           "message":{
+            "type":"string"
+          }
+        }
+      }
+    },
+    "responses": {},
+    "securityDefinitions": {
+      "bearerAuth": {
+        "name": "x-access-token",
+        "in": "header",
+        "type": "apiKey",
+        "scheme": "Bearer",
+        "description": "JWT Authorization header"
+    }
+  },
+    "tags": [
+      {
+        "name": "Auth",
+        "description": "Authentication endpoints"
+      },
+      {
+        "name": "Categories",
+        "description": "Categories endpoints"
+      },
+      {
+        "name": "Characters",
+        "description": "Characters endpoints"
+      },
+      {
+        "name": "Movies",
+        "description": "Movies endpoints"
+      }
+    ]
+  }
+  

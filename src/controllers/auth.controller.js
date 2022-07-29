@@ -42,6 +42,9 @@ export const register = async (req, res) => {
   try {
     const { username, email, password, roles } = req.body;
 
+    if(!username || !email || !password)
+      return res.status(500).json({message: "empty fields"})
+
     const newUser = new User({
       username: username,
       email: email,
@@ -60,11 +63,14 @@ export const register = async (req, res) => {
       .then((response) => {
         console.log("response => ", response.body);
       })
-      .catch((error) => DEBUG(`[requestMailJet]: ${error}`));
+      .catch((error) => {
+        
+        DEBUG(`[requestMailJet]: ${error}`)
+      });
 
     return;
   } catch (error) {
     DEBUG(`[register]: ${error}`);
-    return res.status(500).json(error);
+    return res.status(500).json({message: "internal error"});
   }
 };
