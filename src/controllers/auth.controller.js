@@ -42,16 +42,13 @@ export const register = async (req, res) => {
   try {
     const { username, email, password, roles } = req.body;
 
-    // if(!username || !email || !password)
-    //   return res.status(500).json({message: "empty fields"})
-
-    const newUser = new User({
+    const newUser = {
       username: username,
       email: email,
       password: await User.encryptPassword(password),
-    });
+    };
 
-    const savedUser = await newUser.save();
+    const savedUser = await User.create(newUser);
 
     const token = jwt.sign({ id: savedUser._id }, SECRET, {
       expiresIn: 180, // 3 mm

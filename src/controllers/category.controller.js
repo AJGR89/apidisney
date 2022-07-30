@@ -2,6 +2,7 @@ import Category from "../models/Category";
 import Movie from "../models/Movie";
 import User from "../models/User";
 
+/** GET CATEGORIES */
 export const getCategories = async (req, res) => {
   try {
     const allCategories = await Category.find({}, { _id: 0 }).populate(
@@ -13,6 +14,7 @@ export const getCategories = async (req, res) => {
   }
 };
 
+/** CREATE CATEGORY */
 export const createCategory = async (req, res) => {
   try {
     const userId = req.userId;
@@ -41,11 +43,13 @@ export const createCategory = async (req, res) => {
   }
 };
 
+/** UPDATE CATEGORIES BY ID */
 export const updateByIdCategory = async (req, res) => {
   try {
     const userId = req.userId;
     const id = req.params.id;
-    let category = req.body;
+    const { name, imgUrl, movies } = req.body;
+    let category = {};
     category.updatedBy = userId;
     const categoryU = await Category.findByIdAndUpdate(id, category);
 
@@ -55,6 +59,7 @@ export const updateByIdCategory = async (req, res) => {
   }
 };
 
+/** DELETE CATEGORY BY ID*/
 export const deleteByIdCategory = async (req, res) => {
   try {
     const id = req.params.id;

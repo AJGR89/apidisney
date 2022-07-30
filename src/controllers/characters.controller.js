@@ -1,6 +1,7 @@
 import Character from "../models/character";
 import Movie from "../models/Movie";
 
+/** GET CHARACTERS */
 export const getCharacters = async (req, res) => {
   try {
     const { name, age, movies, full } = req.query;
@@ -43,10 +44,12 @@ export const getCharacters = async (req, res) => {
     );
     res.status(200).json(allCharacters);
   } catch (error) {
+    DEBUG(`[getCharacters]: ${error}`);
     res.status(500).json({ error: "Failed getting characters" });
   }
 };
 
+/** CREATE CHARACTERS */
 export const createCharacter = async (req, res) => {
   try {
     const userId = req.userId;
@@ -72,10 +75,12 @@ export const createCharacter = async (req, res) => {
     const characterC = await Character.create(newCharacter);
     res.status(201).json(characterC);
   } catch (error) {
+    DEBUG(`[createCharacter]: ${error}`);
     res.status(500).json({ error: "Failed creating character" });
   }
 };
 
+/** UPDATE CHARACTER BY ID */
 export const updateByIdCharacter = async (req, res) => {
   try {
     const userId = req.userId;
@@ -83,18 +88,21 @@ export const updateByIdCharacter = async (req, res) => {
     let character = req.body;
     character.updatedBy = userId;
     const characterU = await Character.findByIdAndUpdate(id, character);
-    res.status(200).json({ messageg: `Character id:${id} updated` });
+    res.status(200).json({ message: `Character id:${id} updated` });
   } catch (error) {
+    DEBUG(`[updateByIdCharacter]: ${error}`);
     res.status(500).json({ error: "Failed updating character" });
   }
 };
 
+/** DELETE CHARACTER BY ID */
 export const deleteByIdCharacter = async (req, res) => {
   try {
     const id = req.params.id;
     const characterD = await Character.findByIdAndDelete(id);
     res.status(200).json({ message: `caharacter id deleted` });
   } catch (error) {
+    DEBUG(`[deleteByIdCharacter]: ${error}`);
     res.status(500).json({ error: "Failed deleting character" });
   }
 };
