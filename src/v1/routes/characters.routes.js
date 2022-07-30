@@ -5,12 +5,13 @@ import {
   updateByIdCharacter,
   createCharacter,
 } from "../../controllers/characters.controller";
+import { validateCharacter } from "../../middlewares/verifyRegister";
 
 const router = Router();
 
 router.get("/", getCharacters);
-router.post("/", createCharacter);
-router.put("/:id", updateByIdCharacter);
+router.post("/", validateCharacter ,createCharacter);
+router.put("/:id", validateCharacter,updateByIdCharacter);
 router.delete("/:id", deleteByIdCharacter);
 
 export default router;

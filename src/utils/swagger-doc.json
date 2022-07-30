@@ -305,6 +305,57 @@
           }
         }
       },
+      "CharactersResponse":{
+        "type": "object",
+        "properties":{
+          "imgUrl":{
+            "type":"string"
+          },
+          "name":{
+            "type":"string"
+          }
+        },
+        "example":{
+          "imgUrl":"https://static.wikia.nocookie.net/disney/images/6/68/The_nutcracker_and_the_four_realms_poster.jpg/revision/latest/scale-to-width-down/337?cb=20180811032835&path-prefix=es",
+          "name": "La Cenicienta"
+        }
+      },
+      "CharactersRequest":{
+        "type": "object",
+        "required": [
+          "imgUrl",
+          "name",
+          "age",
+          "weight",
+          "history"
+        ],
+        "properties":{
+          "imgUrl":{
+            "type":"string"
+          },
+          "name":{
+            "type":"string"
+          },
+          "age":{
+            "type": "integer",
+            "format": "int32"
+          },
+          "weight":{
+            "type": "integer",
+            "format": "int32"
+          },
+          "history":{
+            "type":"string"
+          },
+          "movies":{
+            "type":"array"
+          }
+        },
+        "example":{
+          "imgUrl":"https://static.wikia.nocookie.net/disney/images/6/68/The_nutcracker_and_the_four_realms_poster.jpg/revision/latest/scale-to-width-down/337?cb=20180811032835&path-prefix=es",
+          "name": "La Cenicienta"
+        }
+      },
       "Message":{
         "type": "object",
         "properties":{

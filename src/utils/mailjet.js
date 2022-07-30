@@ -2,6 +2,7 @@ import {MAILJET_API_SECRET, MAILJET_API_KEY,MAILJET_API_SENDER} from "../config"
 
 const mailjet = require("node-mailjet").apiConnect(MAILJET_API_KEY, MAILJET_API_SECRET);
 const requestMailJet = (name,email) => {
+  console.log(`\n\n\nMAILJET_API_SENDER ${MAILJET_API_SENDER}`)
     return mailjet
     .post("send", { version: "v3.1" }).request({
       Messages: [

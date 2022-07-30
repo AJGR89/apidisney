@@ -42,8 +42,8 @@ export const register = async (req, res) => {
   try {
     const { username, email, password, roles } = req.body;
 
-    if(!username || !email || !password)
-      return res.status(500).json({message: "empty fields"})
+    // if(!username || !email || !password)
+    //   return res.status(500).json({message: "empty fields"})
 
     const newUser = new User({
       username: username,

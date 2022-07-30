@@ -18,7 +18,6 @@ export const verifyToken = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ messge: "user not found" });
     }
-
     next();
   } catch (error) {
     DEBUG(`[verifyToken]: ${error}`);

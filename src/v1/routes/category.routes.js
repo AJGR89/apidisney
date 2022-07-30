@@ -5,12 +5,13 @@ import {
   updateByIdCategory,
   createCategory,
 } from "../../controllers/category.controller";
+import { validateCategory } from "../../middlewares/verifyRegister";
 
 const router = Router();
 
 router.get("/", getCategories);
-router.post("/", createCategory);
-router.put("/:id", updateByIdCategory);
+router.post("/", validateCategory, createCategory);
+router.put("/:id", validateCategory, updateByIdCategory);
 router.delete("/:id", deleteByIdCategory);
 
 export default router;

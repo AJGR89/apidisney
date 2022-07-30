@@ -13,6 +13,8 @@ const characterSchema = new Schema(
         type: Schema.Types.ObjectId,
       },
     ],
+    createdBy: { ref: "User", type: Schema.Types.ObjectId },
+    updatedBy: { ref: "User", type: Schema.Types.ObjectId },
   },
   {
     timestamps: true,
