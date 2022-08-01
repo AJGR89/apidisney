@@ -2,7 +2,7 @@ import User from "../models/User";
 import { body, validationResult } from "express-validator";
 
 export const checkDuplicateUsernameOrEmail = [
-  body("username").notEmpty().trim(),
+  body("username").trim().notEmpty(),
   body("email").notEmpty().isEmail(),
   body("password").notEmpty().isLength({ min: 5 }),
   async (req, res, next) => {

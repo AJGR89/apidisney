@@ -110,8 +110,15 @@ export const updateByIdMovie = async (req, res) => {
   try {
     const userId = req.userId;
     const id = req.params.id;
-    let movie = req.body;
-    movie.updatedBy = userId;
+    const { imgUrl, title, score, release, characters } = req.body;
+    const movie = {
+      imgUrl: imgUrl,
+      title: title,
+      score: score,
+      release: release,
+      characters: characters,
+      userId: userId,
+    };
     const movieU = await Movie.findByIdAndUpdate(id, movie);
     res.status(200).json({ message: `movie id:${id} updated` });
   } catch (error) {

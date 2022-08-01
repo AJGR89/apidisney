@@ -49,8 +49,12 @@ export const updateByIdCategory = async (req, res) => {
     const userId = req.userId;
     const id = req.params.id;
     const { name, imgUrl, movies } = req.body;
-    let category = {};
-    category.updatedBy = userId;
+    const category = {
+      name:name,
+      imgUrl:imgUrl,
+      movies:movies,
+      updatedBy:userId,
+    };
     const categoryU = await Category.findByIdAndUpdate(id, category);
 
     res.status(200).json({ message: `Category id:${id} updated` });

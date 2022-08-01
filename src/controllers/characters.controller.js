@@ -85,8 +85,16 @@ export const updateByIdCharacter = async (req, res) => {
   try {
     const userId = req.userId;
     const id = req.params.id;
-    let character = req.body;
-    character.updatedBy = userId;
+    const { imgUrl, name, age, weight, history, movies } = req.body;
+    const character = {
+      imgUrl: imgUrl,
+      name: name,
+      age: age,
+      weight: weight,
+      history: history,
+      movies: movies,
+      updatedBy: userId,
+    };
     const characterU = await Character.findByIdAndUpdate(id, character);
     res.status(200).json({ message: `Character id:${id} updated` });
   } catch (error) {
